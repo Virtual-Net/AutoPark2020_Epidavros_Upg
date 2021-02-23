@@ -1,0 +1,29 @@
+{
+"api_token": "cKlL7xOLLYFDscqu0aMl2rmlA8YTwvb62T7VeIlO7yBzgHuRxNH5fFV95OBD",
+"server_ip": "192.168.1.177",
+"get_current_user": "/api/user/current",
+"test_live_server": "/api/info/time",
+"business_info": "/api/info/business",
+"ticket_entrance": "/api/ticket-entrance/request?restorationId=",
+"card_entrance": "/api/card-entrance/request/",
+"sync_ticket_entrance": "/api/ticket-entrance/sync?after=",
+"sync_card_entrance": "/api/card-entrance/sync?",
+"booked_entrance": "/api/booked-entrance/request/",
+"paper_low": "/api/device/paper-low",
+"log_message": "api/device/log",
+"loop_input": "1",
+"ticket_button_input": "2",
+"paper_sensor_input": "3",
+"barrier_relay": "1",
+"light_relay": "2",
+"buzzer_output": "1",
+"logging_file": "/home/pi/AutoPark2020/EntranceTerminalLog.txt"
+    "parameters": [
+    {
+        "camera": "16",
+        "low_on_paper": "false",
+        "parking_zone": "1",
+        "barrier_controller": "tcp://192.168.1.65:7000"
+    }
+    ]
+}
