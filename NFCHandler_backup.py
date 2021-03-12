@@ -287,7 +287,7 @@ class NFCHandler(object):
             key_a = b'\xFF\xFF\xFF\xFF\xFF\xFF'
             # print(bytes('0x{}'.format(entries[:2])))
             data = bytes([entries, 0, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F])
-            #print(str(data))
+            print(str(data))
             if uid is None:
                 return
             else:
@@ -298,22 +298,14 @@ class NFCHandler(object):
                 try:
                     pn532.mifare_classic_authenticate_block(uid, block_number=block_number,
                                                             key_number=nfc.MIFARE_CMD_AUTH_A, key=key_a)
-                except:
-                    logger.info("Block could not be authenticated")
-                try:
                     pn532.mifare_classic_write_block(block_number, data)
-                except:
-                    logger.info("Block was not writen")
-                try:
                     if pn532.mifare_classic_read_block(block_number) == data:
                         print('write block {} successfully'.format(block_number))
                         print('Block has been writen successfully with data: {}'.format(data.hex()))
                         print(bytes.fromhex(data.hex()).decode('utf-8'))
                         return pn532.mifare_classic_read_block(block_number)[2]
-                    else:
-                        print("block was not writen")
                 except:
-                    print("block was not writen")
+                    print("block was not read")
                     pass
             # GPIO.cleanup()
         except:
