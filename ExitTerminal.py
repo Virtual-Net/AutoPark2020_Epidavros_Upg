@@ -632,11 +632,11 @@ class ThreadedClient:
                 entries, result, uid = self.rfidblock.readBlockDataExit()
                 if len(str(uid)) > 4:
                     buzzer = GeneralOutput()
-                    buzzer.setbuzzerpin(0.3)
                     #result = self.rfidblock.readBlockData()
                     print(result)
                     if result == 1:
                         res = self.rfidblock.writeNewBlockDataExit(entries)
+                        buzzer.setbuzzerpin(0.3)
                         print(res)
                         if res == None:
                             logger.info("Could not write card")
