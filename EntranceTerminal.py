@@ -470,6 +470,7 @@ class ThreadedClient:
                 entries, result, uid = self.rfidblock.readBlockDataEntrance()
                 if len(str(uid)) > 4:
                     buzzer = GeneralOutput()
+                    logger.info(uid)
                     #result = self.rfidblock.readBlockData()
                     print(result)
                     if entries > 0 and result == 0:
