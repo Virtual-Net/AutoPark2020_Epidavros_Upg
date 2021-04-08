@@ -307,14 +307,15 @@ class NFCHandler(object):
                     logger.info("Block was not writen")
                 try:
                     if pn532.mifare_classic_read_block(block_number) == data:
-                        print('write block {} successfully'.format(block_number))
-                        print('Block has been writen successfully with data: {}'.format(data.hex()))
-                        print(bytes.fromhex(data.hex()).decode('utf-8'))
+                        logger.info('write block {} successfully'.format(block_number))
+                        logger.info('Block has been writen successfully with data: {}'.format(data.hex()))
+                        logger.info(bytes.fromhex(data.hex()).decode('utf-8'))
+                        logger.info(pn532.mifare_classic_read_block(block_number)[2])
                         return pn532.mifare_classic_read_block(block_number)[2]
                     else:
                         print("block was not writen")
                 except:
-                    print("block was not writen")
+                    logger.info("block was not writen")
                     pass
             # GPIO.cleanup()
         except:
