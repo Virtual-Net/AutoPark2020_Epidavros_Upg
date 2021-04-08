@@ -301,7 +301,8 @@ class NFCHandler(object):
                 except:
                     logger.info("Block could not be authenticated")
                 try:
-                    pn532.mifare_classic_write_block(block_number, data)
+                    pmcwb = pn532.mifare_classic_write_block(block_number, data)
+                    logger.info(pmcwb)
                 except:
                     logger.info("Block was not writen")
                 try:
