@@ -11,7 +11,7 @@ class HttpManager:
     #ticketdispenser = TicketDispenser()
 
     def __init__(self):
-        with open('/home/pi/AutoPark2020_optimization_epidavros/TerminalSettings.json') as json_file:
+        with open('/home/pi/Autopark2020_optimization_epidavros/TerminalSettings.json') as json_file:
             self.data = json.load(json_file)
 
     '''http requests'''
@@ -222,7 +222,7 @@ class HttpManager:
             
     @staticmethod
     def receive_ticket_exit(result_):
-        with open('/home/pi/AutoPark2020_optimization/TerminalSettings.json') as json_file:
+        with open('/home/pi/Autopark2020_optimization/TerminalSettings.json') as json_file:
             data = json.load(json_file)
         dispensername = data['dispenser-type']
         ticketdispenser = globals()['TicketDispenser' + dispensername]()

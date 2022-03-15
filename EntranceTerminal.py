@@ -41,7 +41,7 @@ class GuiPart:
         self.F1.grid(columnspan=10, rowspan=10)
         self.F1.grid_rowconfigure(0, weight=1)
 
-        self.photo = PhotoImage(master=self.GUI, file="/home/pi/AutoPark2020_optimization_epidavros/Images/DCS_2502.png")
+        self.photo = PhotoImage(master=self.GUI, file="/home/pi/Autopark2020_optimization_epidavros/Images/DCS_2502.png")
         self.label = Label(self.GUI, image=self.photo)
         self.label.image = self.photo  # keep a reference!
         self.label.grid(row=0, column=0, columnspan=20, rowspan=30)
@@ -205,7 +205,7 @@ class ThreadedClient:
     messageflag = False
     timer = time.time()
     looptimer = 0
-    with open('/home/pi/AutoPark2020_optimization_epidavros/TerminalSettings.json') as json_file:
+    with open('/home/pi/Autopark2020_optimization_epidavros/TerminalSettings.json') as json_file:
         data = json.load(json_file)
     looptimerset = data["loop-time"]
     looptimerset = int(looptimerset)
