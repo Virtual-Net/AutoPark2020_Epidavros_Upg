@@ -37,11 +37,13 @@ class HttpManager:
         card_entrance = self.data['card_entrance']
         api_token_entrance = self.data['api_token_entrance']
         server_ip = self.data['server_ip']
-        comm_protocol = "http://"
+        comm_protocol = "https://"
         request = comm_protocol + server_ip + card_entrance + cardid
+        print(request)
         card_response = requests.get(request, headers={'Authorization': 'Bearer ' + api_token_entrance})
-        logger.info(card_response.content)
-        return card_response.status_code
+        #print(card_response.content)
+        #print(card_response.status_code)
+        return card_response.status_code, card_response.text
 
     def sendbookedentrance(self, qrcode):
         booked_entrance = self.data['booked_entrance']
@@ -145,6 +147,7 @@ class HttpManager:
                 buzzer.setbuzzerpin(0.5)
                 #time.sleep(0.2)
                 #buzzer.setbuzzerpin(0.5)
+                #print('CODE REACHED HERE')
             else:
                 buzzer.setbuzzerpin(1)
                 time.sleep(0.2)
@@ -152,7 +155,7 @@ class HttpManager:
             logger.info('card entrance granted, 201')
         elif result_ == 404:
             buzzer.setbuzzerpin(1.5)
-            logger.info('card not found')
+            print('card not found')
         elif result_ == 500:
             buzzer.setbuzzerpin(1.5)
             logger.info('server down... send system busy')

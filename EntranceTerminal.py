@@ -462,42 +462,48 @@ class ThreadedClient:
             #self.machinestate = 1
             #looptimer = threading.Timer(10.0, self.looptimer_tick)
             #looptimer.start()
+            relays = GeneralOutput()
             if self.messageflag == False:
                 msg_screen = 1
             #self.queue.put(msg)
-            time.sleep(0.5)
+            time.sleep(0.2)
+            msg = self.rfid.readrf()
             try:
-                entries, result, uid = self.rfidblock.readBlockDataEntrance()
-                if len(str(uid)) > 4:
+                if len(str(msg)) > 4:
                     buzzer = GeneralOutput()
-                    logger.info(uid)
-                    #result = self.rfidblock.readBlockData()
-                    print(result)
-                    if entries > 0 and result == 0:
-                        entr = self.rfidblock.writeNewBlockDataEntrance(entries)
-                        buzzer.setbuzzerpin(0.3)
+                    buzzer.setbuzzerpin(0.3)
+                    #logger.info(uid)
+                    header, cont = self.httpreq.sendcardentrance(str(msg))
+                    contj = json.loads(cont)
+                    print(contj)
+                    if header == 200 or 201:
+                        entr = contj['parameters']['remaining_transits']
                         print(entr)
-                        if entr == None:
-                            logger.info("Could not write card")
-                            msg = 505
-                        else:
-                            msg = 201
-                            #self.httpreq.receive_card_entrance(msg)
-                    if entries == 0:
-                        logger.info("No more entries on card")
-                        msg = 404
-                        #self.httpreq.receive_card_entrance(msg)
-                    if result != 0:
-                        logger.info("Vechicle already in")
+                        relays.setbarrierpin()
+                        relays.resetbarrierpin()
+                        self.queueent.put(entr)
+                        #self.httpreq.receive_card_entrance(header,entr)
+                    elif header == 503:
                         msg = 503
-                    if msg != 201:
-                        entr = 1
-                    self.httpreq.receive_card_entrance(msg,entr)
-                    msg_screen = msg
-                    #self.queue.put(msg)
+                    elif header == 404:
+                        msg = 404
+                    msg_screen = header
+                    #msg = header
             except:
+                print('EXCEPTION')
                 pass
             try:
+                if self.msg != msg_screen:
+                    self.msg = msg_screen
+                    self.queue.put(msg_screen)
+                    self.queuechk.put(msg_screen)
+                if msg == 201:
+                    self.queueent.put(entr)
+                    # print(self.queue.get(0))
+                # print(msg_screen)
+            except:
+                print('no msg')
+            '''try:
                 if self.msg != msg_screen:
                     self.msg = msg_screen
                     self.queue.put(msg_screen)
@@ -507,7 +513,7 @@ class ThreadedClient:
                     # print(self.queue.get(0))
                 # print(msg_screen)
             except:
-                print('no msg')
+                print('no msg')'''
             #print('timer= ' + str(self.looptimer))
             #self.looptimer =float(time.time() - self.timer)
             """if loopstate == 0 and self.looptimer > self.looptimerset:
